@@ -1,0 +1,22 @@
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* .nav-title{
+    color:yellow;
+} */
+
+.nav-options{
+    display: flex;
+    flex-direction: row;
+    gap: 200px;
+}
+
+button{
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+}
