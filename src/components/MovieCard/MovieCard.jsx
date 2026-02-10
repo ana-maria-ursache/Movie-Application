@@ -7,7 +7,7 @@ export default function MovieCard(props) {
         <img src={`/images/${props.image}`} alt={props.title} />
       </div>
       <div className="card-content">
-        <h3>{props.title}</h3>
+        <p>{props.title}</p>
         <p className="genre">{props.genre}</p>
         <div className="rating">
           <span>⭐ {props.rating}</span>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './MoviesContainer.css';
 import MovieCard from '../MovieCard/MovieCard';
+import DropDown from '../Dropdown/Dropdown';
 
 export default function MoviesContainer() {
   const [movies, setMovies] = useState([]);
@@ -17,30 +18,27 @@ export default function MoviesContainer() {
   const ratingMap = { '9+': 9, '8+': 8, '7+': 7, 'Below 7': 0 };
 
   useEffect(() => {
-    // getting the movies and the available genres/ratings
     fetch('/movies.json')
       .then((res) => res.json())
       .then((data) => {
         setMovies(data);
+
         const uniqueGenres = [...new Set(data.map((m) => m.genre.toLowerCase()))]
           .sort()
           .map((g) => g.charAt(0).toUpperCase() + g.slice(1));
         setAvailableGenres(uniqueGenres);
 
-        const buckets = ['9+', '8+', '7+', 'Below 7'].filter((label) =>
+        const buckets = Object.keys(ratingMap).filter((label) =>
           data.some((m) => {
             const r = parseFloat(m.rating);
-            if (label === '9+') return r >= 9;
-            if (label === '8+') return r >= 8;
-            if (label === '7+') return r >= 7;
-            return r < 7;
+            return label === 'Below 7' ? r < 7 : r >= ratingMap[label];
           })
         );
         setAvailableRatingBuckets(buckets);
       });
   }, []);
 
-  const toggleSelection = (item, list, setList) => {
+  const toggleSelection = (item, setList) => {
     setList((prev) => (prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]));
   };
 
@@ -79,51 +77,25 @@ export default function MoviesContainer() {
 
         <div className="filter-controls">
           <div className="dropdown-group">
-            <div className="custom-dropdown">
-              <button
-                className="dropdown-toggle"
-                onClick={() => setOpenDropdown(openDropdown === 'genre' ? null : 'genre')}
-              >
-                Genres {selectedGenres.length > 0 && `(${selectedGenres.length})`}
-              </button>
-              {openDropdown === 'genre' && (
-                <div className="dropdown-menu">
-                  {availableGenres.map((g) => (
-                    <label key={g} className="dropdown-item">
-                      <input
-                        type="checkbox"
-                        checked={selectedGenres.includes(g)}
-                        onChange={() => toggleSelection(g, selectedGenres, setSelectedGenres)}
-                      />
-                      {g}
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
+            {/* Genre Dropdown */}
+            <DropDown
+              label="Genres"
+              items={availableGenres}
+              selectedItems={selectedGenres}
+              onToggle={(item) => toggleSelection(item, setSelectedGenres)}
+              isOpen={openDropdown === 'genre'}
+              onOpenToggle={() => setOpenDropdown(openDropdown === 'genre' ? null : 'genre')}
+            />
 
-            <div className="custom-dropdown">
-              <button
-                className="dropdown-toggle"
-                onClick={() => setOpenDropdown(openDropdown === 'rating' ? null : 'rating')}
-              >
-                Ratings
-              </button>
-              {openDropdown === 'rating' && (
-                <div className="dropdown-menu">
-                  {availableRatingBuckets.map((r) => (
-                    <label key={r} className="dropdown-item">
-                      <input
-                        type="checkbox"
-                        checked={selectedRatings.includes(r)}
-                        onChange={() => toggleSelection(r, selectedRatings, setSelectedRatings)}
-                      />
-                      {r}
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
+            {/* Rating Dropdown */}
+            <DropDown
+              label="Ratings"
+              items={availableRatingBuckets}
+              selectedItems={selectedRatings}
+              onToggle={(item) => toggleSelection(item, setSelectedRatings)}
+              isOpen={openDropdown === 'rating'}
+              onOpenToggle={() => setOpenDropdown(openDropdown === 'rating' ? null : 'rating')}
+            />
           </div>
 
           <button className="clear-btn" onClick={handleClear}>
