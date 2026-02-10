@@ -7,10 +7,10 @@ import './App.css';
 
 function App() {
   return (
-    <>
+    <div className='mainContainer'>
       <NavBar />
       <MoviesContainer />
-    </>
+    </div>
   );
 }
 
