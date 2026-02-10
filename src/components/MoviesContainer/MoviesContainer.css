@@ -1,0 +1,136 @@
+.movies-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+.search-bar-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 40px 0;
+}
+
+.search-input {
+    width: 500px;
+    max-width: 90%;
+    padding: 14px 24px;
+    border-radius: 16px;
+    background: var(--dark);
+    border: 2px solid var(--dark-green);
+    color: var(--lighter-green);
+}
+
+.search-input:focus {
+    border-color: var(--lighter-green);
+}
+
+.filter-controls {
+    margin-left: 20px;
+    display: flex;
+    gap: 40px;
+}
+
+.dropdown-group {
+    display: flex;
+    gap: 15px;
+}
+
+.custom-dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    background: transparent;
+    border: 1px solid rgba(158, 200, 185, 0.3);
+    color: var(--lighter-green);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    align-self: center;
+}
+
+.dropdown-toggle:hover {
+    background-color: rgba(158, 200, 185, 0.1);
+    color: white;
+    border-color: var(--lighter-green);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: #112626;
+    border: 1px solid var(--light-green);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 180px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--lighter-green);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 5px;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.clear-btn {
+    background: transparent;
+    border: 1px solid rgba(158, 200, 185, 0.3);
+    color: var(--lighter-green);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    align-self: center;
+}
+
+.clear-btn:hover {
+    background-color: rgba(158, 200, 185, 0.1);
+    color: white;
+    border-color: var(--lighter-green);
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--light-green);
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+.container-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.container-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 30px;
+}
+

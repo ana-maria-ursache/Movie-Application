@@ -1,0 +1,42 @@
+@import '/src/variables.css';
+
+.card {
+    width: 80%;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--dark-green);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-image img {
+    width: 100%;
+    height: 80%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+    border-radius: 20px;
+
+}
+
+.card-content h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.genre {
+    font-size: 0.8rem;
+    color: #aaa;
+    text-transform: capitalize;
+    padding-bottom: 5px;
+}
