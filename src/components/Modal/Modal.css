@@ -1,0 +1,61 @@
+.modal-overlay {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; 
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: #1a1a1a;
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.modal-body {
+  display: flex;
+  gap: 20px;
+}
+
+.modal-img {
+  width: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.watchlist-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.watchlist-btn.add { background-color: #e50914; color: white; }
+.watchlist-btn.remove { background-color: #444; color: white; }
+.watchlist-btn:hover { opacity: 0.8; }
