@@ -15,3 +15,19 @@
 
     gap: 20px;
 }
+
+footer {
+    flex-shrink: 0;
+    margin-top: auto;
+    width: 80%;
+    text-align: center;
+    margin: 20px 0;
+    padding-top: 15px;
+    border-top: 1px solid var(--dark-green);
+
+    .footer-text {
+        font-weight: bold;
+        font-size: 14px;
+        color: var(--lighter-green);
+    }
+}

@@ -7,9 +7,13 @@ import './App.css';
 
 function App() {
   return (
-    <div className='mainContainer'>
+    <div className="mainContainer">
       <NavBar />
       <MoviesContainer />
+
+      <footer>
+        <p className="footer-text">&copy; 2026 Framely. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
