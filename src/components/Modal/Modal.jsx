@@ -24,7 +24,7 @@ export default function Modal({ movie, setOpenModal, onDataChange }) {
     setIsInWatchlist(!isInWatchlist);
 
     if (onDataChange) {
-      // if the function exists(it is passed, use it)
+      // if the function exists(it is passed), use it
       onDataChange();
     }
   };

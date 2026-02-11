@@ -25,6 +25,7 @@
   background: var(--dark);
   border: 5px solid #203e3e;
   color: var(--lighter-green);
+  margin-bottom: 20px;
 }
 
 
@@ -33,15 +34,14 @@
 }
 
 .filter-controls {
-  margin-left: 20px;
   display: flex;
   gap: 40px;
 }
 
 .clear-btn {
   background: transparent;
-  border: 1px solid rgb(158  200  185 / 30%);
-  color: var(--lighter-green);
+  border: 1px solid var(--lighter-green);
+  color: rgb(158  200  185 / 70%); 
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
@@ -75,7 +75,7 @@
 
 .container-header {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 30px;
 }

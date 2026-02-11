@@ -5,15 +5,16 @@ import DropDown from '../Dropdown/Dropdown';
 
 export default function MoviesContainer() {
   const [movies, setMovies] = useState([]);
-
   const [searchTerm, setSearchTerm] = useState('');
-
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedRatings, setSelectedRatings] = useState([]);
-
   const [availableGenres, setAvailableGenres] = useState([]);
   const [availableRatingBuckets, setAvailableRatingBuckets] = useState([]);
+
   const [openDropdown, setOpenDropdown] = useState(null);
+
+  const [sortAlpha, setSortAlpha] = useState(''); // 'A-Z' or 'Z-A'
+  const [sortRating, setSortRating] = useState(''); // 'High-Low' or 'Low-High'
 
   const ratingMap = { '9+': 9, '8+': 8, '7+': 7, 'Below 7': 0 };
 
@@ -22,7 +23,6 @@ export default function MoviesContainer() {
       .then((res) => res.json())
       .then((data) => {
         setMovies(data);
-
         const uniqueGenres = [...new Set(data.map((m) => m.genre.toLowerCase()))]
           .sort()
           .map((g) => g.charAt(0).toUpperCase() + g.slice(1));
@@ -42,10 +42,8 @@ export default function MoviesContainer() {
     setList((prev) => (prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]));
   };
 
-  // filtering the movies by the rating/genres the user has picked
   const filteredMovies = movies.filter((movie) => {
     const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-
     const movieGenre = movie.genre.charAt(0).toUpperCase() + movie.genre.slice(1);
     const matchesGenre = selectedGenres.length === 0 || selectedGenres.includes(movieGenre);
 
@@ -54,14 +52,25 @@ export default function MoviesContainer() {
       const minThreshold = Math.min(...selectedRatings.map((label) => ratingMap[label]));
       matchesRating = parseFloat(movie.rating) >= minThreshold;
     }
-
     return matchesSearch && matchesGenre && matchesRating;
+  });
+
+  const finalDisplayMovies = [...filteredMovies].sort((a, b) => {
+    if (sortAlpha === 'A-Z') return a.title.localeCompare(b.title);
+    if (sortAlpha === 'Z-A') return b.title.localeCompare(a.title);
+
+    if (sortRating === 'High-Low') return b.rating - a.rating;
+    if (sortRating === 'Low-High') return a.rating - b.rating;
+
+    return 0;
   });
 
   const handleClear = () => {
     setSearchTerm('');
     setSelectedGenres([]);
     setSelectedRatings([]);
+    setSortAlpha('');
+    setSortRating('');
     setOpenDropdown(null);
   };
 
@@ -77,6 +86,36 @@ export default function MoviesContainer() {
 
         <div className="filter-controls">
           <div className="dropdown-group">
+            {/* Alphabetical Sort Dropdown */}
+            <DropDown
+              label="Title Sort"
+              items={['A-Z', 'Z-A']}
+              selectedItems={sortAlpha ? [sortAlpha] : []}
+              onToggle={(item) => {
+                setSortAlpha(item);
+                setSortRating('');
+              }}
+              isOpen={openDropdown === 'sortAlpha'}
+              onOpenToggle={() =>
+                setOpenDropdown(openDropdown === 'sortAlpha' ? null : 'sortAlpha')
+              }
+            />
+
+            {/* Rating Sort Dropdown */}
+            <DropDown
+              label="Rating Sort"
+              items={['High-Low', 'Low-High']}
+              selectedItems={sortRating ? [sortRating] : []}
+              onToggle={(item) => {
+                setSortRating(item);
+                setSortAlpha('');
+              }}
+              isOpen={openDropdown === 'sortRating'}
+              onOpenToggle={() =>
+                setOpenDropdown(openDropdown === 'sortRating' ? null : 'sortRating')
+              }
+            />
+
             {/* Genre Dropdown */}
             <DropDown
               label="Genres"
@@ -105,7 +144,7 @@ export default function MoviesContainer() {
       </div>
 
       <main className="movies-container">
-        {filteredMovies.map((movie) => (
+        {finalDisplayMovies.map((movie) => (
           <MovieCard key={movie.id} {...movie} />
         ))}
       </main>
