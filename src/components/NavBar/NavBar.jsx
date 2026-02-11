@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './NavBar.css';
 
 export default function NavBar() {
@@ -6,8 +7,12 @@ export default function NavBar() {
       <nav className="navbar">
         <p className="nav-title">Framely</p>
         <div className="nav-options">
-          <button className='nav-button'>Home</button>
-          <button className='nav-button'>Watchlist</button>
+          <Link to="/" className="nav-button">
+            Home
+          </Link>
+          <Link to="/watchlist" className="nav-button">
+            Watchlist
+          </Link>
         </div>
       </nav>
     </>
