@@ -1,0 +1,13 @@
+.watchlist-title {
+  color: var(--light-green);
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.empty-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px;
+  color: #888;
+  font-size: 1.2rem;
+}

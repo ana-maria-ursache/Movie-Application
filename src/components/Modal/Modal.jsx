@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import { useState, useEffect } from 'react';
 import './Modal.css';
 
-export default function Modal({ movie, setOpenModal }) {
+export default function Modal({ movie, setOpenModal, onDataChange }) {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
 
   useEffect(() => {
@@ -13,13 +13,20 @@ export default function Modal({ movie, setOpenModal }) {
   const handleWatchlistToggle = (e) => {
     e.stopPropagation();
     let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+
     if (isInWatchlist) {
       watchlist = watchlist.filter((m) => m.id !== movie.id);
     } else {
       watchlist.push(movie);
     }
+
     localStorage.setItem('watchlist', JSON.stringify(watchlist));
     setIsInWatchlist(!isInWatchlist);
+
+    if (onDataChange) {
+      // if the function exists(it is passed, use it)
+      onDataChange();
+    }
   };
 
   const toggleModal = () => {
