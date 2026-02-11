@@ -33,7 +33,7 @@
     color: var(--lighter-green);
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
   .navbar {
     flex-direction: column; 
     gap: 15px;
