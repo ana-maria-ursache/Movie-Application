@@ -138,5 +138,11 @@
     "image": "20.jpg",
     "genre": "horror",
     "rating": "7.4"
+  },
+  {
+    "id": 21,
+    "title": "Guardian of DocuChamber",
+    "genre": "horror",
+    "rating": "8.75"
   }
 ]

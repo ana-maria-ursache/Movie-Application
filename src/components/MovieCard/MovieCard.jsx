@@ -13,7 +13,10 @@ export default function MovieCard(props) {
     <>
       <section onClick={toggleModal} className="card">
         <div className="card-image">
-          <img src={`/images/${props.image}`} alt={props.title} />
+          <img
+            src={props.image ? `/images/${props.image}` : `/images/default.jpg`}
+            alt={props.title}
+          />
         </div>
         <div className="card-content">
           <p>{props.title}</p>
