@@ -23,7 +23,7 @@ export default function Modal({ movie, setOpenModal }) {
   };
 
   const toggleModal = () => {
-    setOpenModal(false); 
+    setOpenModal(false);
   };
 
   useEffect(() => {
@@ -45,7 +45,9 @@ export default function Modal({ movie, setOpenModal }) {
           <img src={`/images/${movie.image}`} alt={movie.title} className="modal-img" />
           <div className="modal-info">
             <h2>{movie.title}</h2>
-            <p className="modal-genre">{movie.genre}</p>
+            <p className="modal-genre">
+              {movie.genre.charAt(0).toUpperCase() + movie.genre.slice(1)}
+            </p>
             <p className="modal-rating">⭐ {movie.rating}</p>
             <button
               className={`watchlist-btn ${isInWatchlist ? 'remove' : 'add'}`}

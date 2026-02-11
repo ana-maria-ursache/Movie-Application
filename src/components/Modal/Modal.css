@@ -4,34 +4,42 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.85); 
+  background: var(--blur-color); 
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999; 
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(2px);
 }
 
 .modal-content {
-  background: #1a1a1a;
   color: white;
   padding: 30px;
   border-radius: 12px;
   width: 90%;
   max-width: 600px;
   position: relative;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px var(--shadow);
 }
 
 .modal-body {
   display: flex;
+  justify-content: center;
   gap: 20px;
 }
 
 .modal-img {
-  width: 200px;
+  width: 300px;
   border-radius: 8px;
   object-fit: cover;
+}
+
+.modal-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
 }
 
 .close-btn {
@@ -46,7 +54,6 @@
 }
 
 .watchlist-btn {
-  margin-top: 20px;
   padding: 12px 24px;
   border: none;
   border-radius: 6px;
@@ -56,6 +63,16 @@
   transition: 0.3s;
 }
 
-.watchlist-btn.add { background-color: #e50914; color: white; }
-.watchlist-btn.remove { background-color: #444; color: white; }
-.watchlist-btn:hover { opacity: 0.8; }
+.watchlist-btn.add { 
+  background-color: var(--red); 
+  color: white; 
+}
+
+.watchlist-btn.remove { 
+  background-color: var(--dark-green); 
+  color: white; 
+}
+
+.watchlist-btn:hover { 
+  opacity: 0.8; 
+}
