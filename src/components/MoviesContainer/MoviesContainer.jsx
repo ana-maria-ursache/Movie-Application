@@ -144,9 +144,11 @@ export default function MoviesContainer() {
       </div>
 
       <main className="movies-container">
-        {finalDisplayMovies.map((movie) => (
-          <MovieCard key={movie.id} {...movie} />
-        ))}
+        {movies.length > 0 ? (
+          finalDisplayMovies.map((movie) => <MovieCard key={movie.id} {...movie} />)
+        ) : (
+          <div className="no-results">There aren't movies in the database for now, sorry.</div>
+        )}
       </main>
     </div>
   );
