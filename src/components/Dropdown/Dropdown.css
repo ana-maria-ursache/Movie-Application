@@ -1,63 +1,63 @@
 .dropdown-group {
-    display: flex;
-    gap: 15px;
+  display: flex;
+  gap: 15px;
 }
 
 .custom-dropdown {
-    position: relative;
+  position: relative;
 }
 
 .dropdown-toggle {
-    background: transparent;
-    border: 1px solid rgba(158, 200, 185, 0.3);
-    color: var(--lighter-green);
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    align-self: center;
+  background: transparent;
+  border: 1px solid rgb(158 200 185 / 30%);
+  color: var(--lighter-green);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  align-self: center;
 }
 
 .dropdown-toggle:hover {
-    background-color: rgba(158, 200, 185, 0.1);
-    color: white;
-    border-color: var(--lighter-green);
+  background-color: rgb(158 200 185 / 10%);
+  color: white;
+  border-color: var(--lighter-green);
 }
 
 .dropdown-menu {
-    position: absolute;
-    top: 110%;
-    left: 0;
-    background: #112626;
-    border: 1px solid var(--light-green);
-    border-radius: 8px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 180px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    z-index: 1;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: #112626;
+  border: 1px solid var(--light-green);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 180px;
+  box-shadow: 0 10px 25px rgb(0 0 0 / 50%);
+  z-index: 1;
 }
 
 .dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--lighter-green);
-    cursor: pointer;
-    background-color: transparent;
-    font-size: 0.9rem;
-    padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--lighter-green);
+  cursor: pointer;
+  background-color: transparent;
+  font-size: 0.9rem;
+  padding: 5px;
 }
 
 .dropdown-item:hover {
-    background: rgba(255, 255, 255, 0.05);
+  background: rgb(255 255 255 / 0%);
 }
 
 .dropdown-item input[type="checkbox"] {
-    accent-color: var(--light-green);
-    cursor: pointer;
+  accent-color: var(--light-green);
+  cursor: pointer;
 }

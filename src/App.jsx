@@ -9,7 +9,7 @@ import './App.css';
 function App() {
   return (
     <BrowserRouter>
-      <div className="mainContainer">
+      <div className="main-container">
         <NavBar />
 
         <Routes>
