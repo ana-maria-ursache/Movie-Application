@@ -76,3 +76,22 @@
 .watchlist-btn:hover { 
   opacity: 0.8; 
 }
+
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95%;
+    padding: 15px; 
+    max-height: 90vh;
+    overflow-y: auto; 
+  }
+
+  .modal-body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-img {
+    width: 100%;
+    max-width: 250px;
+  }
+}

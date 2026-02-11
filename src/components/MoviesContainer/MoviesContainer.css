@@ -1,4 +1,4 @@
-@import '../../variables.css';
+@import url('../../variables.css');
 
 .movies-container {
   display: grid;
@@ -80,3 +80,20 @@
   margin-bottom: 30px;
 }
 
+@media (max-width: 768px) {
+  .search-input {
+    width: 90%; 
+  }
+
+  .filter-controls {
+    flex-direction: column; 
+    gap: 15px;
+    width: 90%;
+  }
+
+  .dropdown-group {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+}
