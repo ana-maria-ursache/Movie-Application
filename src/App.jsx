@@ -9,7 +9,16 @@ import Modal from './components/Modal/Modal';
 import './App.css';
 
 function App() {
-  const [watchlist, setWatchlist] = useState(JSON.parse(localStorage.getItem('watchlist')) || []);
+  const [watchlist, setWatchlist] = useState(() => {
+    try {
+      const saved = localStorage.getItem('watchlist');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('Watchlist corrupted, resetting:', error);
+      return [];
+    }
+  });
+
   const [openModal, setOpenModal] = useState(null);
 
   const toggleWatchlist = (movie) => {
