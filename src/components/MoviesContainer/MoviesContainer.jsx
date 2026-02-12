@@ -61,7 +61,9 @@ export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
 
   const filteredMovies = movies.filter((movie) => {
     const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const movieGenre = movie.genre.charAt(0).toUpperCase() + movie.genre.slice(1);
+
+    const movieGenre =
+      (movie.genre || 'Unknown').charAt(0).toUpperCase() + (movie.genre || '').slice(1);
     const matchesGenre = selectedGenres.length === 0 || selectedGenres.includes(movieGenre);
 
     let matchesRating = true;
