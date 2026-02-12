@@ -61,9 +61,10 @@
   grid-column: 1 / -1;
   text-align: center;
   padding: 40px;
-  color: var(--light-green);
+  color: var(--lighter-green);
   font-size: 1.2rem;
   font-style: italic;
+  margin-top: 10%;
 }
 
 .container-wrapper {

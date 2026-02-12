@@ -11,7 +11,7 @@ export default function Watchlist({ watchlist, onToggle }) {
             <MovieCard key={movie.id} {...movie} watchlist={watchlist} onToggle={onToggle} />
           ))
         ) : (
-          <p>Your watchlist is empty.</p>
+          <p className="no-results">Your watchlist is empty.</p>
         )}
       </main>
     </div>
