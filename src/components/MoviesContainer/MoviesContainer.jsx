@@ -20,21 +20,34 @@ export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
 
   useEffect(() => {
     fetch('/movies.json')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
       .then((data) => {
-        setMovies(data);
-        const uniqueGenres = [...new Set(data.map((m) => m.genre.toLowerCase()))]
-          .sort()
-          .map((g) => g.charAt(0).toUpperCase() + g.slice(1));
-        setAvailableGenres(uniqueGenres);
+        if (Array.isArray(data)) {
+          setMovies(data);
 
-        const buckets = Object.keys(ratingMap).filter((label) =>
-          data.some((m) => {
-            const r = parseFloat(m.rating);
-            return label === 'Below 7' ? r < 7 : r >= ratingMap[label];
-          })
-        );
-        setAvailableRatingBuckets(buckets);
+          const uniqueGenres = [...new Set(data.map((m) => m.genre?.toLowerCase() || ''))]
+            .filter(Boolean)
+            .sort()
+            .map((g) => g.charAt(0).toUpperCase() + g.slice(1));
+          setAvailableGenres(uniqueGenres);
+
+          const buckets = Object.keys(ratingMap).filter((label) =>
+            data.some((m) => {
+              const r = parseFloat(m.rating);
+              return label === 'Below 7' ? r < 7 : r >= ratingMap[label];
+            })
+          );
+          setAvailableRatingBuckets(buckets);
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to fetch movies:', err);
+        setMovies([]);
       });
   }, []);
 
