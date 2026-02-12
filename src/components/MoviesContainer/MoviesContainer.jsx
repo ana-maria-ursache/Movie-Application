@@ -4,6 +4,9 @@ import MovieCard from '../MovieCard/MovieCard';
 import DropDown from '../Dropdown/Dropdown';
 
 export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -19,23 +22,37 @@ export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
   const ratingMap = { '9+': 9, '8+': 8, '7+': 7, 'Below 7': 0 };
 
   useEffect(() => {
+    setIsLoading(true);
     fetch('/movies.json')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to load movies (Status: ${res.status})`);
+        return res.json();
+      })
       .then((data) => {
-        setMovies(data);
-        const uniqueGenres = [...new Set(data.map((m) => m.genre.toLowerCase()))]
-          .sort()
-          .map((g) => g.charAt(0).toUpperCase() + g.slice(1));
-        setAvailableGenres(uniqueGenres);
+        if (Array.isArray(data)) {
+          setMovies(data);
 
-        const buckets = Object.keys(ratingMap).filter((label) =>
-          data.some((m) => {
-            const r = parseFloat(m.rating);
-            return label === 'Below 7' ? r < 7 : r >= ratingMap[label];
-          })
-        );
-        setAvailableRatingBuckets(buckets);
-      });
+          const uniqueGenres = [...new Set(data.map((m) => m.genre?.toLowerCase() || ''))]
+            .filter(Boolean)
+            .sort()
+            .map((g) => g.charAt(0).toUpperCase() + g.slice(1));
+          setAvailableGenres(uniqueGenres);
+
+          const buckets = Object.keys(ratingMap).filter((label) =>
+            data.some((m) => {
+              const r = parseFloat(m.rating);
+              return label === 'Below 7' ? r < 7 : r >= ratingMap[label];
+            })
+          );
+          setAvailableRatingBuckets(buckets);
+          setError(null);
+        }
+      })
+      .catch((err) => {
+        setError(err.message);
+        setMovies([]);
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const toggleSelection = (item, setList) => {
@@ -44,7 +61,9 @@ export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
 
   const filteredMovies = movies.filter((movie) => {
     const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const movieGenre = movie.genre.charAt(0).toUpperCase() + movie.genre.slice(1);
+
+    const movieGenre =
+      (movie.genre || 'Unknown').charAt(0).toUpperCase() + (movie.genre || '').slice(1);
     const matchesGenre = selectedGenres.length === 0 || selectedGenres.includes(movieGenre);
 
     let matchesRating = true;
