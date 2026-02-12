@@ -4,6 +4,9 @@ import MovieCard from '../MovieCard/MovieCard';
 import DropDown from '../Dropdown/Dropdown';
 
 export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -19,11 +22,10 @@ export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
   const ratingMap = { '9+': 9, '8+': 8, '7+': 7, 'Below 7': 0 };
 
   useEffect(() => {
+    setIsLoading(true);
     fetch('/movies.json')
       .then((res) => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
+        if (!res.ok) throw new Error(`Failed to load movies (Status: ${res.status})`);
         return res.json();
       })
       .then((data) => {
@@ -43,12 +45,14 @@ export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
             })
           );
           setAvailableRatingBuckets(buckets);
+          setError(null);
         }
       })
       .catch((err) => {
-        console.error('Failed to fetch movies:', err);
+        setError(err.message);
         setMovies([]);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const toggleSelection = (item, setList) => {
