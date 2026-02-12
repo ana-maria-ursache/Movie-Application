@@ -4,11 +4,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavBar from './components/navbar/NavBar';
 import MoviesContainer from './components/MoviesContainer/MoviesContainer';
 import Watchlist from './components/Watchlist/Watchlist';
+import Modal from './components/Modal/Modal';
 
 import './App.css';
 
 function App() {
   const [watchlist, setWatchlist] = useState(JSON.parse(localStorage.getItem('watchlist')) || []);
+  const [openModal, setOpenModal] = useState(null);
 
   const toggleWatchlist = (movie) => {
     setWatchlist((prev) => {
@@ -28,13 +30,34 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<MoviesContainer watchlist={watchlist} onToggle={toggleWatchlist} />}
+            element={
+              <MoviesContainer
+                watchlist={watchlist}
+                onToggle={toggleWatchlist}
+                onOpenModal={setOpenModal}
+              />
+            }
           />
           <Route
             path="/watchlist"
-            element={<Watchlist watchlist={watchlist} onToggle={toggleWatchlist} />}
+            element={
+              <Watchlist
+                watchlist={watchlist}
+                onToggle={toggleWatchlist}
+                onOpenModal={setOpenModal}
+              />
+            }
           />
         </Routes>
+
+        {openModal && (
+          <Modal
+            movie={openModal}
+            setOpenModal={() => setOpenModal(null)}
+            watchlist={watchlist}
+            onToggle={toggleWatchlist}
+          />
+        )}
 
         <footer>
           <p className="footer-text">&copy; 2026 Framely. All rights reserved.</p>

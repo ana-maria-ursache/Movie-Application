@@ -3,7 +3,7 @@ import './MoviesContainer.css';
 import MovieCard from '../MovieCard/MovieCard';
 import DropDown from '../Dropdown/Dropdown';
 
-export default function MoviesContainer({ watchlist, onToggle }) {
+export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -146,7 +146,13 @@ export default function MoviesContainer({ watchlist, onToggle }) {
       <main className="movies-container">
         {movies.length > 0 ? (
           finalDisplayMovies.map((movie) => (
-            <MovieCard key={movie.id} {...movie} watchlist={watchlist} onToggle={onToggle} />
+            <MovieCard
+              key={movie.id}
+              {...movie}
+              watchlist={watchlist}
+              onToggle={onToggle}
+              onOpenModal={() => onOpenModal(movie)}
+            />
           ))
         ) : (
           <div className="no-results">There aren't movies in the database for now, sorry.</div>

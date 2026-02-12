@@ -3,11 +3,10 @@ import './MovieCard.css';
 import Modal from '../Modal/Modal';
 
 export default function MovieCard(props) {
-  const [openModal, setOpenModal] = useState(false);
 
   return (
     <>
-      <section onClick={() => setOpenModal(true)} className="card">
+      <section onClick={props.onOpenModal} className="card">
         <div className="card-image">
           <img
             src={props.image ? `/images/${props.image}` : `/images/default.jpg`}
@@ -24,7 +23,7 @@ export default function MovieCard(props) {
         </div>
       </section>
 
-      {openModal && (
+      {props.openModal && (
         <Modal
           movie={props}
           setOpenModal={setOpenModal}
