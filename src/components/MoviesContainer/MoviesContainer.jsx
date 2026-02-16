@@ -3,11 +3,10 @@ import './MoviesContainer.css';
 import MovieCard from '../MovieCard/MovieCard';
 import DropDown from '../Dropdown/Dropdown';
 
-export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
+export default function MoviesContainer({ movies, setMovies, watchlist, onToggle, onOpenModal }) {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedRatings, setSelectedRatings] = useState([]);

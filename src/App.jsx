@@ -5,10 +5,12 @@ import NavBar from './components/navbar/NavBar';
 import MoviesContainer from './components/MoviesContainer/MoviesContainer';
 import Watchlist from './components/Watchlist/Watchlist';
 import Modal from './components/Modal/Modal';
-
+import MoviePage from './components/MoviePage/MoviePage';
 import './App.css';
 
 function App() {
+  const [movies, setMovies] = useState([]);
+
   const [watchlist, setWatchlist] = useState(() => {
     try {
       const saved = localStorage.getItem('watchlist');
@@ -41,6 +43,8 @@ function App() {
             path="/"
             element={
               <MoviesContainer
+                movies={movies}
+                setMovies={setMovies}
                 watchlist={watchlist}
                 onToggle={toggleWatchlist}
                 onOpenModal={setOpenModal}
@@ -56,6 +60,10 @@ function App() {
                 onOpenModal={setOpenModal}
               />
             }
+          />
+          <Route
+            path="movies/:id"
+            element={<MoviePage movies={movies} onOpenModal={setOpenModal} />}
           />
         </Routes>
 
