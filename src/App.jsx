@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import NavBar from './components/navbar/NavBar';
@@ -10,6 +10,23 @@ import './App.css';
 
 function App() {
   const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    fetch('/movies.json')
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to load movies (Status: ${res.status})`);
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setMovies(data);
+        }
+      })
+      .catch((err) => {
+        console.error('Error loading movies:', err.message);
+        setMovies([]);
+      });
+  }, []);
 
   const [watchlist, setWatchlist] = useState(() => {
     try {
@@ -44,7 +61,6 @@ function App() {
             element={
               <MoviesContainer
                 movies={movies}
-                setMovies={setMovies}
                 watchlist={watchlist}
                 onToggle={toggleWatchlist}
                 onOpenModal={setOpenModal}
@@ -62,8 +78,8 @@ function App() {
             }
           />
           <Route
-            path="movies/:id"
-            element={<MoviePage movies={movies} onOpenModal={setOpenModal} />}
+            path="/movies/:id"
+            element={<MoviePage movies={movies} watchlist={watchlist} onToggle={toggleWatchlist} onOpenModal={setOpenModal} />}
           />
         </Routes>
 

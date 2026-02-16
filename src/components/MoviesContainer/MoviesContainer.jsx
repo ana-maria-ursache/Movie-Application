@@ -3,10 +3,7 @@ import './MoviesContainer.css';
 import MovieCard from '../MovieCard/MovieCard';
 import DropDown from '../Dropdown/Dropdown';
 
-export default function MoviesContainer({ movies, setMovies, watchlist, onToggle, onOpenModal }) {
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
+export default function MoviesContainer({ movies, watchlist, onToggle, onOpenModal }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedRatings, setSelectedRatings] = useState([]);
@@ -21,38 +18,22 @@ export default function MoviesContainer({ movies, setMovies, watchlist, onToggle
   const ratingMap = { '9+': 9, '8+': 8, '7+': 7, 'Below 7': 0 };
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch('/movies.json')
-      .then((res) => {
-        if (!res.ok) throw new Error(`Failed to load movies (Status: ${res.status})`);
-        return res.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setMovies(data);
+    if (movies.length > 0) {
+      const uniqueGenres = [...new Set(movies.map((m) => m.genre?.toLowerCase() || ''))]
+        .filter(Boolean)
+        .sort()
+        .map((g) => g.charAt(0).toUpperCase() + g.slice(1));
+      setAvailableGenres(uniqueGenres);
 
-          const uniqueGenres = [...new Set(data.map((m) => m.genre?.toLowerCase() || ''))]
-            .filter(Boolean)
-            .sort()
-            .map((g) => g.charAt(0).toUpperCase() + g.slice(1));
-          setAvailableGenres(uniqueGenres);
-
-          const buckets = Object.keys(ratingMap).filter((label) =>
-            data.some((m) => {
-              const r = parseFloat(m.rating);
-              return label === 'Below 7' ? r < 7 : r >= ratingMap[label];
-            })
-          );
-          setAvailableRatingBuckets(buckets);
-          setError(null);
-        }
-      })
-      .catch((err) => {
-        setError(err.message);
-        setMovies([]);
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+      const buckets = Object.keys(ratingMap).filter((label) =>
+        movies.some((m) => {
+          const r = parseFloat(m.rating);
+          return label === 'Below 7' ? r < 7 : r >= ratingMap[label];
+        })
+      );
+      setAvailableRatingBuckets(buckets);
+    }
+  }, [movies]);
 
   const toggleSelection = (item, setList) => {
     setList((prev) => (prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]));

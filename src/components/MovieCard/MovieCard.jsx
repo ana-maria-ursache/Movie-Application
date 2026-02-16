@@ -1,9 +1,6 @@
-import { useState } from 'react';
 import './MovieCard.css';
-import Modal from '../Modal/Modal';
 
 export default function MovieCard(props) {
-
   return (
     <>
       <section onClick={props.onOpenModal} className="card">
@@ -22,15 +19,6 @@ export default function MovieCard(props) {
           </div>
         </div>
       </section>
-
-      {props.openModal && (
-        <Modal
-          movie={props}
-          setOpenModal={setOpenModal}
-          watchlist={props.watchlist}
-          onToggle={props.onToggle}
-        />
-      )}
     </>
   );
 }
