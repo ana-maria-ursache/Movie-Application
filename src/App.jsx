@@ -57,7 +57,7 @@ function App() {
 
         <Routes>
           <Route
-            path="/"
+            path="/search?&titleSort?&ratingSort?&genre?&rating?"
             element={
               <MoviesContainer
                 movies={movies}

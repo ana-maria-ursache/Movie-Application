@@ -1,21 +1,43 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './MoviesContainer.css';
 import MovieCard from '../MovieCard/MovieCard';
 import DropDown from '../Dropdown/Dropdown';
 
 export default function MoviesContainer({ movies, watchlist, onToggle, onOpenModal }) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedRatings, setSelectedRatings] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
+  const [selectedGenres, setSelectedGenres] = useState(
+    searchParams.get('genres') ? searchParams.get('genres').split(',') : []
+  );
+
+  const [selectedRatings, setSelectedRatings] = useState(
+    searchParams.get('ratings') ? searchParams.get('ratings').split(',') : []
+  );
+
   const [availableGenres, setAvailableGenres] = useState([]);
   const [availableRatingBuckets, setAvailableRatingBuckets] = useState([]);
 
   const [openDropdown, setOpenDropdown] = useState(null);
 
-  const [sortAlpha, setSortAlpha] = useState(''); // 'A-Z' or 'Z-A'
-  const [sortRating, setSortRating] = useState(''); // 'High-Low' or 'Low-High'
+  const [sortAlpha, setSortAlpha] = useState(searchParams.get('sortAlpha') || '');
+  const [sortRating, setSortRating] = useState(searchParams.get('sortRating') || '');
 
   const ratingMap = { '9+': 9, '8+': 8, '7+': 7, 'Below 7': 0 };
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (searchTerm) params.set('search', searchTerm);
+
+    if (selectedGenres.length > 0) params.set('genres', selectedGenres.join(','));
+    if (selectedRatings.length > 0) params.set('ratings', selectedRatings.join(','));
+
+    if (sortAlpha) params.set('sortAlpha', sortAlpha);
+    if (sortRating) params.set('sortRating', sortRating);
+
+    setSearchParams(params);
+  }, [searchTerm, selectedGenres, selectedRatings, sortAlpha, sortRating, setSearchParams]);
 
   useEffect(() => {
     if (movies.length > 0) {
