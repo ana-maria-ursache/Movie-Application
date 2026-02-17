@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './NavBar.css';
 
 export default function NavBar() {
@@ -7,12 +7,12 @@ export default function NavBar() {
       <nav className="navbar">
         <p className="nav-title">Framely</p>
         <div className="nav-options">
-          <Link to="/" className="nav-button">
-            Home
-          </Link>
-          <Link to="/watchlist" className="nav-button">
-            Watchlist
-          </Link>
+          <NavLink to="/" className="nav-button">
+            {({ isActive }) => <span className={isActive ? 'active' : ''}>Home</span>}
+          </NavLink>
+          <NavLink to="/watchlist" className="nav-button">
+            {({ isActive }) => <span className={isActive ? 'active' : ''}>Watchlist</span>}
+          </NavLink>
         </div>
       </nav>
     </>

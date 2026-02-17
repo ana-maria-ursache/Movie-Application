@@ -1,59 +1,61 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './MoviesContainer.css';
 import MovieCard from '../MovieCard/MovieCard';
 import DropDown from '../Dropdown/Dropdown';
 
-export default function MoviesContainer({ watchlist, onToggle, onOpenModal }) {
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+export default function MoviesContainer({ movies, watchlist, onToggle, onOpenModal }) {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [movies, setMovies] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedRatings, setSelectedRatings] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
+  const [selectedGenres, setSelectedGenres] = useState(
+    searchParams.get('genres') ? searchParams.get('genres').split(',') : []
+  );
+
+  const [selectedRatings, setSelectedRatings] = useState(
+    searchParams.get('ratings') ? searchParams.get('ratings').split(',') : []
+  );
+
   const [availableGenres, setAvailableGenres] = useState([]);
   const [availableRatingBuckets, setAvailableRatingBuckets] = useState([]);
 
   const [openDropdown, setOpenDropdown] = useState(null);
 
-  const [sortAlpha, setSortAlpha] = useState(''); // 'A-Z' or 'Z-A'
-  const [sortRating, setSortRating] = useState(''); // 'High-Low' or 'Low-High'
+  const [sortAlpha, setSortAlpha] = useState(searchParams.get('sortAlpha') || '');
+  const [sortRating, setSortRating] = useState(searchParams.get('sortRating') || '');
 
   const ratingMap = { '9+': 9, '8+': 8, '7+': 7, 'Below 7': 0 };
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch('/movies.json')
-      .then((res) => {
-        if (!res.ok) throw new Error(`Failed to load movies (Status: ${res.status})`);
-        return res.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setMovies(data);
+    const params = new URLSearchParams();
+    if (searchTerm) params.set('search', searchTerm);
 
-          const uniqueGenres = [...new Set(data.map((m) => m.genre?.toLowerCase() || ''))]
-            .filter(Boolean)
-            .sort()
-            .map((g) => g.charAt(0).toUpperCase() + g.slice(1));
-          setAvailableGenres(uniqueGenres);
+    if (selectedGenres.length > 0) params.set('genres', selectedGenres.join(','));
+    if (selectedRatings.length > 0) params.set('ratings', selectedRatings.join(','));
 
-          const buckets = Object.keys(ratingMap).filter((label) =>
-            data.some((m) => {
-              const r = parseFloat(m.rating);
-              return label === 'Below 7' ? r < 7 : r >= ratingMap[label];
-            })
-          );
-          setAvailableRatingBuckets(buckets);
-          setError(null);
-        }
-      })
-      .catch((err) => {
-        setError(err.message);
-        setMovies([]);
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+    if (sortAlpha) params.set('sortAlpha', sortAlpha);
+    if (sortRating) params.set('sortRating', sortRating);
+
+    setSearchParams(params);
+  }, [searchTerm, selectedGenres, selectedRatings, sortAlpha, sortRating, setSearchParams]);
+
+  useEffect(() => {
+    if (movies.length > 0) {
+      const uniqueGenres = [...new Set(movies.map((m) => m.genre?.toLowerCase() || ''))]
+        .filter(Boolean)
+        .sort()
+        .map((g) => g.charAt(0).toUpperCase() + g.slice(1));
+      setAvailableGenres(uniqueGenres);
+
+      const buckets = Object.keys(ratingMap).filter((label) =>
+        movies.some((m) => {
+          const r = parseFloat(m.rating);
+          return label === 'Below 7' ? r < 7 : r >= ratingMap[label];
+        })
+      );
+      setAvailableRatingBuckets(buckets);
+    }
+  }, [movies]);
 
   const toggleSelection = (item, setList) => {
     setList((prev) => (prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]));

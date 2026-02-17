@@ -29,6 +29,11 @@
     text-decoration: none;
 }
 
+.nav-button .active {
+    color: var(--lighter-green);
+    font-weight: bold;
+}
+
 .nav-button:hover{
     color: var(--lighter-green);
 }
