@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import NavBar from './components/navbar/NavBar';
 import MoviesContainer from './components/MoviesContainer/MoviesContainer';
 import Watchlist from './components/Watchlist/Watchlist';
 import Modal from './components/Modal/Modal';
 import MoviePage from './components/MoviePage/MoviePage';
+import Layout from './components/Layout/Layout';
 import './App.css';
 
 function App() {
@@ -52,10 +52,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="main-container">
-        <NavBar />
-
-        <Routes>
+      <Routes>
+        <Route element={<Layout />}>
           <Route
             path="/search?&titleSort?&ratingSort?&genre?&rating?"
             element={
@@ -79,23 +77,26 @@ function App() {
           />
           <Route
             path="/movies/:id"
-            element={<MoviePage movies={movies} watchlist={watchlist} onToggle={toggleWatchlist} onOpenModal={setOpenModal} />}
+            element={
+              <MoviePage
+                movies={movies}
+                watchlist={watchlist}
+                onToggle={toggleWatchlist}
+                onOpenModal={setOpenModal}
+              />
+            }
           />
-        </Routes>
+        </Route>
+      </Routes>
 
-        {openModal && (
-          <Modal
-            movie={openModal}
-            setOpenModal={() => setOpenModal(null)}
-            watchlist={watchlist}
-            onToggle={toggleWatchlist}
-          />
-        )}
-
-        <footer>
-          <p className="footer-text">&copy; 2026 Framely. All rights reserved.</p>
-        </footer>
-      </div>
+      {openModal && (
+        <Modal
+          movie={openModal}
+          setOpenModal={() => setOpenModal(null)}
+          watchlist={watchlist}
+          onToggle={toggleWatchlist}
+        />
+      )}
     </BrowserRouter>
   );
 }
