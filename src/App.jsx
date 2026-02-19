@@ -55,23 +55,14 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route
-            path="/search?&titleSort?&ratingSort?&genre?&rating?"
+            path="/"
             element={
-              <MoviesContainer
-                movies={movies}
-                watchlist={watchlist}
-                onOpenModal={setOpenModal}
-              />
+              <MoviesContainer movies={movies} watchlist={watchlist} onOpenModal={setOpenModal} />
             }
           />
           <Route
             path="/watchlist"
-            element={
-              <Watchlist
-                watchlist={watchlist}
-                onOpenModal={setOpenModal}
-              />
-            }
+            element={<Watchlist watchlist={watchlist} onOpenModal={setOpenModal} />}
           />
           <Route
             path="/movies/:id"
