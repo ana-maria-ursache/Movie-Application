@@ -4,7 +4,7 @@ import './MoviesContainer.css';
 import MovieCard from '../MovieCard/MovieCard';
 import DropDown from '../Dropdown/Dropdown';
 
-export default function MoviesContainer({ movies, watchlist, onToggle, onOpenModal }) {
+export default function MoviesContainer({ movies, watchlist, onOpenModal }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
@@ -169,9 +169,8 @@ export default function MoviesContainer({ movies, watchlist, onToggle, onOpenMod
           finalDisplayMovies.map((movie) => (
             <MovieCard
               key={movie.id}
-              {...movie}
+              movie={movie}
               watchlist={watchlist}
-              onToggle={onToggle}
               onOpenModal={() => onOpenModal(movie)}
             />
           ))

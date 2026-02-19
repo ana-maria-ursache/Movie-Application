@@ -60,7 +60,6 @@ function App() {
               <MoviesContainer
                 movies={movies}
                 watchlist={watchlist}
-                onToggle={updateWatchlist}
                 onOpenModal={setOpenModal}
               />
             }
@@ -70,7 +69,6 @@ function App() {
             element={
               <Watchlist
                 watchlist={watchlist}
-                onToggle={updateWatchlist}
                 onOpenModal={setOpenModal}
               />
             }

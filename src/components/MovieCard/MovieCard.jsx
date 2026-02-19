@@ -1,20 +1,20 @@
 import './MovieCard.css';
 
-export default function MovieCard(props) {
+export default function MovieCard({ movie, onOpenModal }) {
   return (
     <>
-      <section onClick={props.onOpenModal} className="card">
+      <section onClick={onOpenModal} className="card">
         <div className="card-image">
           <img
-            src={props.image ? `/images/${props.image}` : `/images/default.jpg`}
-            alt={props.title}
+            src={movie.image ? `/images/${movie.image}` : `/images/default.jpg`}
+            alt={movie.title}
           />
         </div>
         <div className="card-content">
-          <p>{props.title}</p>
-          <p className="genre">{props.genre}</p>
+          <p>{movie.title}</p>
+          <p className="genre">{movie.genre}</p>
           <div className="rating">
-            <span>⭐ {props.rating}</span>
+            <span>⭐ {movie.rating}</span>
             <span></span>
           </div>
         </div>

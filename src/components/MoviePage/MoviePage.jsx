@@ -20,7 +20,7 @@ export default function MoviePage({ movies, watchlist, onWatchlistChange }) {
   return (
     <div className="movie-page-container">
       <div className="movie-card-wrapper">
-        <MovieCard {...movie} disableLink />
+        <MovieCard movie={movie} />
       </div>
 
       <button
