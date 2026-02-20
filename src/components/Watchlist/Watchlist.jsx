@@ -1,7 +1,7 @@
 import MovieCard from '../MovieCard/MovieCard';
 import './Watchlist.css';
 
-export default function Watchlist({ watchlist, onToggle, onOpenModal }) {
+export default function Watchlist({ watchlist, onOpenModal }) {
   return (
     <div className="container-wrapper">
       <h1 className="watchlist-title">Your Watchlist</h1>
@@ -10,9 +10,8 @@ export default function Watchlist({ watchlist, onToggle, onOpenModal }) {
           watchlist.map((movie) => (
             <MovieCard
               key={movie.id}
-              {...movie}
+              movie={movie}
               watchlist={watchlist}
-              onToggle={onToggle}
               onOpenModal={() => onOpenModal(movie)}
             />
           ))

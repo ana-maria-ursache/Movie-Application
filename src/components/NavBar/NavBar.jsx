@@ -8,10 +8,10 @@ export default function NavBar() {
         <p className="nav-title">Framely</p>
         <div className="nav-options">
           <NavLink to="/" className="nav-button">
-            {({ isActive }) => <span className={isActive ? 'active' : ''}>Home</span>}
+            Home
           </NavLink>
           <NavLink to="/watchlist" className="nav-button">
-            {({ isActive }) => <span className={isActive ? 'active' : ''}>Watchlist</span>}
+            Watchlist
           </NavLink>
         </div>
       </nav>

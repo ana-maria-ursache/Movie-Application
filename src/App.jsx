@@ -40,7 +40,7 @@ function App() {
 
   const [openModal, setOpenModal] = useState(null);
 
-  const toggleWatchlist = (movie) => {
+  const updateWatchlist = (movie) => {
     setWatchlist((prev) => {
       const isIncluded = prev.some((m) => m.id === movie.id);
       const updated = isIncluded ? prev.filter((m) => m.id !== movie.id) : [...prev, movie];
@@ -55,25 +55,14 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route
-            path="/search?&titleSort?&ratingSort?&genre?&rating?"
+            path="/"
             element={
-              <MoviesContainer
-                movies={movies}
-                watchlist={watchlist}
-                onToggle={toggleWatchlist}
-                onOpenModal={setOpenModal}
-              />
+              <MoviesContainer movies={movies} watchlist={watchlist} onOpenModal={setOpenModal} />
             }
           />
           <Route
             path="/watchlist"
-            element={
-              <Watchlist
-                watchlist={watchlist}
-                onToggle={toggleWatchlist}
-                onOpenModal={setOpenModal}
-              />
-            }
+            element={<Watchlist watchlist={watchlist} onOpenModal={setOpenModal} />}
           />
           <Route
             path="/movies/:id"
@@ -81,7 +70,7 @@ function App() {
               <MoviePage
                 movies={movies}
                 watchlist={watchlist}
-                onToggle={toggleWatchlist}
+                onWatchlistChange={updateWatchlist}
                 onOpenModal={setOpenModal}
               />
             }
@@ -94,7 +83,7 @@ function App() {
           movie={openModal}
           setOpenModal={() => setOpenModal(null)}
           watchlist={watchlist}
-          onToggle={toggleWatchlist}
+          onToggle={updateWatchlist}
         />
       )}
     </BrowserRouter>

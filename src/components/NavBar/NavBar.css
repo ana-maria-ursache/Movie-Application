@@ -29,7 +29,7 @@
     text-decoration: none;
 }
 
-.nav-button .active {
+.nav-button.active {
     color: var(--lighter-green);
     font-weight: bold;
 }

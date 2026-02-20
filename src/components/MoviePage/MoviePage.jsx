@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import MovieCard from '../MovieCard/MovieCard';
 import '../MoviePage/MoviePage.css';
 
-export default function MoviePage({ movies, watchlist, onToggle, onOpenModal }) {
+export default function MoviePage({ movies, watchlist, onWatchlistChange }) {
   const { id } = useParams();
 
   const movie = movies.find((m) => m.id === parseInt(id));
@@ -20,12 +20,12 @@ export default function MoviePage({ movies, watchlist, onToggle, onOpenModal }) 
   return (
     <div className="movie-page-container">
       <div className="movie-card-wrapper">
-        <MovieCard {...movie} disableLink />
+        <MovieCard movie={movie} />
       </div>
 
       <button
         className={`watchlist-btn ${isInWatchlist ? 'in-watchlist' : ''}`}
-        onClick={() => onToggle(movie)}
+        onClick={() => onWatchlistChange(movie)}
       >
         {isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}
       </button>
